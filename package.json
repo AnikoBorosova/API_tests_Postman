@@ -1,0 +1,19 @@
+{
+  "name": "api_tests_postman",
+  "version": "1.0.0",
+  "description": "API-tests with Postman & chaiJS",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnikoBorosova/API_tests_Postman.git"
+  },
+  "author": "Anikó Borosová",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AnikoBorosova/API_tests_Postman/issues"
+  },
+  "homepage": "https://github.com/AnikoBorosova/API_tests_Postman#readme"
+}
