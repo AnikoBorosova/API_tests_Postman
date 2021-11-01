@@ -1,0 +1,2077 @@
+{
+	"info": {
+		"_postman_id": "fc437b0c-8ffc-41a5-8cfd-1af448909e90",
+		"name": "Petstore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "E2E-testing - User Workflow",
+			"item": [
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check response body\", () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson).to.have.property(\"type\").that.equals(\"unknown\");",
+									"    pm.expect(responseJson).to.have.property(\"message\").to.match(/[0-9]{18}/gm);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const random = Math.random().toString(36).substring(2);",
+									"const userName = `johnny-${random}`;",
+									"pm.collectionVariables.set(\"userName\", userName);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "special-key",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api_key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 0,\n  \"username\": \"{{userName}}\",\n  \"firstName\": \"Kis\",\n  \"lastName\": \"Vuk\",\n  \"email\": \"kisvuk@gmail.com\",\n  \"password\": \"{{password}}\",\n  \"phone\": \"123456\",\n  \"userStatus\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user"
+							]
+						},
+						"description": "POST /user"
+					},
+					"response": [
+						{
+							"name": "Create user",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 0,\n  \"username\": \"{{userName}}\",\n  \"firstName\": \"Kis\",\n  \"lastName\": \"Vuk\",\n  \"email\": \"kisvuk@gmail.com\",\n  \"password\": \"123456\",\n  \"phone\": \"123456\",\n  \"userStatus\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 01 Nov 2021 09:52:32 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"9223372000666149818\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Check existing user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const userName = pm.collectionVariables.get(\"userName\");",
+									"",
+									"pm.test(\"Check response body\", () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson).to.have.property(\"username\").that.eqls(userName);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/user/{{userName}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"{{userName}}"
+							]
+						},
+						"description": "GET /user/{username}"
+					},
+					"response": [
+						{
+							"name": "Check existing user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/user/jancsi",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"jancsi"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 31 Oct 2021 17:10:55 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 9223372000666148688,\n    \"username\": \"jancsi\",\n    \"firstName\": \"Jancsi\",\n    \"lastName\": \"János\",\n    \"email\": \"jancsi.janos@gmail.com\",\n    \"password\": \"abcabc\",\n    \"phone\": \"123456\",\n    \"userStatus\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Log in the user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check response body\", () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson).to.be.a(\"object\");",
+									"    pm.expect(responseJson).to.have.property(\"type\").that.equals(\"unknown\");",
+									"    pm.expect(responseJson).to.have.property(\"message\").to.match(/^logged in user session:([0-9]+){12}$/gm);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/login?username={{userName}}&password={{password}}",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{userName}}"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}"
+								}
+							]
+						},
+						"description": "GET /user/login"
+					},
+					"response": [
+						{
+							"name": "Log in the user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user/login?username={{userName}}&password={{password}}",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "{{userName}}"
+										},
+										{
+											"key": "password",
+											"value": "{{password}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 01 Nov 2021 10:05:40 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "X-Expires-After",
+									"value": "Mon Nov 01 11:05:40 UTC 2021"
+								},
+								{
+									"key": "X-Rate-Limit",
+									"value": "5000"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"logged in user session:1635761140411\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Log out user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check response body\", () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson).to.have.property(\"type\").that.equals(\"unknown\");",
+									"    pm.expect(responseJson).to.have.property(\"message\").that.contains(\"ok\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/logout",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"logout"
+							]
+						},
+						"description": "GET /user/logout"
+					},
+					"response": [
+						{
+							"name": "Log out user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user/logout",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user",
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 01 Nov 2021 10:06:26 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"ok\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create with array",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check response body\", () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson).to.have.property(\"type\").that.equals(\"unknown\");",
+									"    pm.expect(responseJson).to.have.property(\"message\").that.contains(\"ok\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const random = Math.random().toString(36).substring(2);",
+									"const user1 = `user1-${random}`;",
+									"pm.collectionVariables.set(\"user1\", user1);",
+									"",
+									"const user2 = `user2-${random}`;",
+									"pm.collectionVariables.set(\"user2\", user2);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  {\n    \"id\": 0,\n    \"username\": \"{{user1}}\",\n    \"firstName\": \"Jancsi\",\n    \"lastName\": \"János\",\n    \"email\": \"jancsi.janos@gmail.com\",\n    \"password\": \"abcabc\",\n    \"phone\": \"123456\",\n    \"userStatus\": 0\n  },\n  {\n    \"id\": 0,\n    \"username\": \"{{user2}}\",\n    \"firstName\": \"Juliska\",\n    \"lastName\": \"Julia\",\n    \"email\": \"juliska.julia@gmail.com\",\n    \"password\": \"defdef\",\n    \"phone\": \"123456\",\n    \"userStatus\": 0\n  }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/createWithArray",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"createWithArray"
+							]
+						},
+						"description": "POST /user/createWithArray"
+					},
+					"response": [
+						{
+							"name": "Create with array",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  {\n    \"id\": 0,\n    \"username\": \"{{user1}}\",\n    \"firstName\": \"Jancsi\",\n    \"lastName\": \"János\",\n    \"email\": \"jancsi.janos@gmail.com\",\n    \"password\": \"abcabc\",\n    \"phone\": \"123456\",\n    \"userStatus\": 0\n  },\n  {\n    \"id\": 0,\n    \"username\": \"{{user2}}\",\n    \"firstName\": \"Juliska\",\n    \"lastName\": \"Julia\",\n    \"email\": \"juliska.julia@gmail.com\",\n    \"password\": \"defdef\",\n    \"phone\": \"123456\",\n    \"userStatus\": 0\n  }\n]",
+									"options": {
+										"raw": {
+											"language": "javascript"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user/createWithArray",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user",
+										"createWithArray"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 01 Nov 2021 10:11:16 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"ok\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create with list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check response body\", () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson).to.be.a(\"object\");",
+									"    pm.expect(responseJson).to.have.property(\"type\").that.equals(\"unknown\");",
+									"    pm.expect(responseJson).to.have.property(\"message\").that.contains(\"ok\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const random = Math.random().toString(36).substring(2);",
+									"const bob = `bob-${random}`;",
+									"pm.collectionVariables.set(\"bob\", bob);",
+									"",
+									"const bobek = `bobek-${random}`;",
+									"pm.collectionVariables.set(\"bobek\", bobek);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  {\n    \"id\": 0,\n    \"username\": \"{{bob}}\",\n    \"firstName\": \"Bob\",\n    \"lastName\": \"Bob\",\n    \"email\": \"bob.bob@gmail.com\",\n    \"password\": \"abcabc\",\n    \"phone\": \"123456\",\n    \"userStatus\": 0\n  },\n  {\n    \"id\": 0,\n    \"username\": \"{{bobek}}\",\n    \"firstName\": \"Bobek\",\n    \"lastName\": \"Bobek\",\n    \"email\": \"bobek.bobek@gmail.com\",\n    \"password\": \"defdef\",\n    \"phone\": \"123456\",\n    \"userStatus\": 0\n  }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/createWithList",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"createWithList"
+							]
+						},
+						"description": "POST /user/createWithList"
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check response body\", () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson).to.be.a(\"object\");",
+									"    pm.expect(responseJson).to.have.property(\"type\").that.equals(\"unknown\");",
+									"    pm.expect(responseJson).to.have.property(\"message\").to.match(/[0-9]{18}/gm);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 0,\n  \"username\": \"{{userName}}\",\n  \"firstName\": \"Julia\",\n  \"lastName\": \"Kovacs\",\n  \"email\": \"kovacs.julia@gmail.com\",\n  \"password\": \"defdef\",\n  \"phone\": \"123456\",\n  \"userStatus\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/{{userName}}",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"{{userName}}"
+							]
+						},
+						"description": "PUT /user/{username}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const userName = pm.collectionVariables.get(\"userName\");",
+									"",
+									"pm.test(\"Check response body\", () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson).to.have.property(\"type\").that.equals(\"unknown\");",
+									"    pm.expect(responseJson).to.have.property(\"message\").that.contains(userName);",
+									"});",
+									"",
+									"pm.collectionVariables.unset(\"userName\");",
+									"",
+									"pm.test(\"UserName variable cleaned up\", () => {",
+									"    pm.expect(pm.collectionVariables.get(\"userName\")).to.equal(undefined);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/{{userName}}",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"{{userName}}"
+							]
+						},
+						"description": "Delete /user/{username}"
+					},
+					"response": [
+						{
+							"name": "Delete user",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user/{{userName}}",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user",
+										"{{userName}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 01 Nov 2021 10:35:07 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"johnny-6yzqv83z6l5\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Contract Testing",
+			"item": [
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// The schema expected in response",
+									"const responseSchema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"code\": {",
+									"            \"type\": \"number\"",
+									"        },",
+									"        \"type\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"message\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Ensure expected response structure\", () => {",
+									"    const validation = tv4.validate(jsonData, responseSchema);",
+									"    pm.expect(validation).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const random = Math.random().toString(36).substring(2);",
+									"const userName = `johnny-${random}`;",
+									"pm.collectionVariables.set(\"userName\", userName);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "special-key",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api_key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 0,\n  \"username\": \"{{userName}}\",\n  \"firstName\": \"Kis\",\n  \"lastName\": \"Vuk\",\n  \"email\": \"kisvuk@gmail.com\",\n  \"password\": \"{{password}}\",\n  \"phone\": \"123456\",\n  \"userStatus\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user"
+							]
+						},
+						"description": "POST /user"
+					},
+					"response": [
+						{
+							"name": "Create user",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 0,\n  \"username\": \"{{userName}}\",\n  \"firstName\": \"Kis\",\n  \"lastName\": \"Vuk\",\n  \"email\": \"kisvuk@gmail.com\",\n  \"password\": \"123456\",\n  \"phone\": \"123456\",\n  \"userStatus\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 01 Nov 2021 09:52:32 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"9223372000666149818\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Check existing user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// The schema expected in response",
+									"const responseSchema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"id\": {",
+									"            \"type\": \"number\"",
+									"        },",
+									"        \"username\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"firstName\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"lastName\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"email\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"password\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"phone\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"        ,",
+									"        \"userStatus\": {",
+									"            \"type\": \"number\"",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Ensure expected response structure\", () => {",
+									"    const validation = tv4.validate(jsonData, responseSchema);",
+									"    pm.expect(validation).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/user/{{userName}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"{{userName}}"
+							]
+						},
+						"description": "GET /user/{username}"
+					},
+					"response": [
+						{
+							"name": "Check existing user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/user/jancsi",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"jancsi"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 31 Oct 2021 17:10:55 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 9223372000666148688,\n    \"username\": \"jancsi\",\n    \"firstName\": \"Jancsi\",\n    \"lastName\": \"János\",\n    \"email\": \"jancsi.janos@gmail.com\",\n    \"password\": \"abcabc\",\n    \"phone\": \"123456\",\n    \"userStatus\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Log in the user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// The schema expected in response",
+									"const responseSchema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"code\": {",
+									"            \"type\": \"number\"",
+									"        },",
+									"        \"type\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"message\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Ensure expected response structure\", () => {",
+									"    const validation = tv4.validate(jsonData, responseSchema);",
+									"    pm.expect(validation).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/login?username={{userName}}&password={{password}}",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{userName}}"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}"
+								}
+							]
+						},
+						"description": "GET /user/login"
+					},
+					"response": [
+						{
+							"name": "Log in the user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user/login?username={{userName}}&password={{password}}",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "{{userName}}"
+										},
+										{
+											"key": "password",
+											"value": "{{password}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 01 Nov 2021 10:05:40 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "X-Expires-After",
+									"value": "Mon Nov 01 11:05:40 UTC 2021"
+								},
+								{
+									"key": "X-Rate-Limit",
+									"value": "5000"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"logged in user session:1635761140411\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Log out user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// The schema expected in response",
+									"const responseSchema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"code\": {",
+									"            \"type\": \"number\"",
+									"        },",
+									"        \"type\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"message\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Ensure expected response structure\", () => {",
+									"    const validation = tv4.validate(jsonData, responseSchema);",
+									"    pm.expect(validation).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/logout",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"logout"
+							]
+						},
+						"description": "GET /user/logout"
+					},
+					"response": [
+						{
+							"name": "Log out user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user/logout",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user",
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 01 Nov 2021 10:06:26 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"ok\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create with array",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// The schema expected in response",
+									"const responseSchema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"code\": {",
+									"            \"type\": \"number\"",
+									"        },",
+									"        \"type\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"message\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Ensure expected response structure\", () => {",
+									"    const validation = tv4.validate(jsonData, responseSchema);",
+									"    pm.expect(validation).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const random = Math.random().toString(36).substring(2);",
+									"const user1 = `user1-${random}`;",
+									"pm.collectionVariables.set(\"user1\", user1);",
+									"",
+									"const user2 = `user2-${random}`;",
+									"pm.collectionVariables.set(\"user2\", user2);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  {\n    \"id\": 0,\n    \"username\": \"{{user1}}\",\n    \"firstName\": \"Jancsi\",\n    \"lastName\": \"János\",\n    \"email\": \"jancsi.janos@gmail.com\",\n    \"password\": \"abcabc\",\n    \"phone\": \"123456\",\n    \"userStatus\": 0\n  },\n  {\n    \"id\": 0,\n    \"username\": \"{{user2}}\",\n    \"firstName\": \"Juliska\",\n    \"lastName\": \"Julia\",\n    \"email\": \"juliska.julia@gmail.com\",\n    \"password\": \"defdef\",\n    \"phone\": \"123456\",\n    \"userStatus\": 0\n  }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/createWithArray",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"createWithArray"
+							]
+						},
+						"description": "POST /user/createWithArray"
+					},
+					"response": [
+						{
+							"name": "Create with array",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  {\n    \"id\": 0,\n    \"username\": \"{{user1}}\",\n    \"firstName\": \"Jancsi\",\n    \"lastName\": \"János\",\n    \"email\": \"jancsi.janos@gmail.com\",\n    \"password\": \"abcabc\",\n    \"phone\": \"123456\",\n    \"userStatus\": 0\n  },\n  {\n    \"id\": 0,\n    \"username\": \"{{user2}}\",\n    \"firstName\": \"Juliska\",\n    \"lastName\": \"Julia\",\n    \"email\": \"juliska.julia@gmail.com\",\n    \"password\": \"defdef\",\n    \"phone\": \"123456\",\n    \"userStatus\": 0\n  }\n]",
+									"options": {
+										"raw": {
+											"language": "javascript"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user/createWithArray",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user",
+										"createWithArray"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 01 Nov 2021 10:11:16 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"ok\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create with list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// The schema expected in response",
+									"const responseSchema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"code\": {",
+									"            \"type\": \"number\"",
+									"        },",
+									"        \"type\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"message\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Ensure expected response structure\", () => {",
+									"    const validation = tv4.validate(jsonData, responseSchema);",
+									"    pm.expect(validation).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const random = Math.random().toString(36).substring(2);",
+									"const bob = `bob-${random}`;",
+									"pm.collectionVariables.set(\"bob\", bob);",
+									"",
+									"const bobek = `bobek-${random}`;",
+									"pm.collectionVariables.set(\"bobek\", bobek);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  {\n    \"id\": 0,\n    \"username\": \"{{bob}}\",\n    \"firstName\": \"Bob\",\n    \"lastName\": \"Bob\",\n    \"email\": \"bob.bob@gmail.com\",\n    \"password\": \"abcabc\",\n    \"phone\": \"123456\",\n    \"userStatus\": 0\n  },\n  {\n    \"id\": 0,\n    \"username\": \"{{bobek}}\",\n    \"firstName\": \"Bobek\",\n    \"lastName\": \"Bobek\",\n    \"email\": \"bobek.bobek@gmail.com\",\n    \"password\": \"defdef\",\n    \"phone\": \"123456\",\n    \"userStatus\": 0\n  }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/createWithList",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"createWithList"
+							]
+						},
+						"description": "POST /user/createWithList"
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// The schema expected in response",
+									"const responseSchema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"code\": {",
+									"            \"type\": \"number\"",
+									"        },",
+									"        \"type\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"message\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Ensure expected response structure\", () => {",
+									"    const validation = tv4.validate(jsonData, responseSchema);",
+									"    pm.expect(validation).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 0,\n  \"username\": \"{{userName}}\",\n  \"firstName\": \"Julia\",\n  \"lastName\": \"Kovacs\",\n  \"email\": \"kovacs.julia@gmail.com\",\n  \"password\": \"defdef\",\n  \"phone\": \"123456\",\n  \"userStatus\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/{{userName}}",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"{{userName}}"
+							]
+						},
+						"description": "PUT /user/{username}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// The schema expected in response",
+									"const responseSchema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"code\": {",
+									"            \"type\": \"number\"",
+									"        },",
+									"        \"type\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"message\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Ensure expected response structure\", () => {",
+									"    const validation = tv4.validate(jsonData, responseSchema);",
+									"    pm.expect(validation).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/{{userName}}",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"{{userName}}"
+							]
+						},
+						"description": "Delete /user/{username}"
+					},
+					"response": [
+						{
+							"name": "Delete user",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user/{{userName}}",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user",
+										"{{userName}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 01 Nov 2021 10:35:07 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"johnny-6yzqv83z6l5\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Check response code & header\", () => {",
+					"    pm.expect(pm.response.code).to.equal(200);",
+					"    pm.expect(pm.response).to.have.header(\"Content-Type\", \"application/json\");",
+					"    pm.expect(pm.response).to.have.header(\"connection\", \"keep-alive\");",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://petstore.swagger.io/v2"
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "user1",
+			"value": ""
+		},
+		{
+			"key": "user2",
+			"value": ""
+		},
+		{
+			"key": "bob",
+			"value": ""
+		},
+		{
+			"key": "bobek",
+			"value": ""
+		},
+		{
+			"key": "userName",
+			"value": ""
+		}
+	]
+}
