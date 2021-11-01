@@ -4,7 +4,7 @@
   "description": "API-tests with Postman & chaiJS",
   "main": "index.js",
   "scripts": {
-    "test": ""
+    "test": "newman run Petstore.postman_collection.json"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/AnikoBorosova/API_tests_Postman/issues"
   },
-  "homepage": "https://github.com/AnikoBorosova/API_tests_Postman#readme"
+  "homepage": "https://github.com/AnikoBorosova/API_tests_Postman#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "newman": "5.3.0"
+  }
 }
